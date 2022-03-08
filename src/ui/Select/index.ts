@@ -1,1 +1,1 @@
-export { Select, type SelectValues } from "./Select";
+export { Select, type SelectValue } from "./Select";

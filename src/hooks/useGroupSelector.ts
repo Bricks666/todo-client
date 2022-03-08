@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { StylesConfig } from "react-select";
 import { useTaskGroups } from ".";
 import { TaskGroup } from "@/models/Groups/types";
-import { SelectValues } from "@/ui/Select";
+import { SelectValue } from "@/ui/Select";
 
 const getGroup = (groups: TaskGroup[], groupId: number | string) =>
 	groups.find((group) => group.id === +groupId);
@@ -17,7 +17,7 @@ const getColor = (
 };
 
 export const useGroupsSelectStyles = (groups: TaskGroup[]) => {
-	return useMemo<StylesConfig<SelectValues>>(() => {
+	return useMemo<StylesConfig<SelectValue>>(() => {
 		return {
 			option: (base, { data, isSelected }) => {
 				const group = getGroup(groups, data.value);
@@ -60,7 +60,7 @@ export const useGroupsSelectStyles = (groups: TaskGroup[]) => {
 
 export const useGroupSelector = () => {
 	const groups = useTaskGroups();
-	const groupsOptions = useMemo<SelectValues[]>(() => {
+	const groupsOptions = useMemo<SelectValue[]>(() => {
 		return groups.map((group) => ({ value: group.id, label: group.name }));
 	}, [groups]);
 
