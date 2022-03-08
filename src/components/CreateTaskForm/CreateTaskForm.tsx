@@ -50,13 +50,7 @@ export const CreateTaskForm: FC<ClassNameProps> = ({ className }) => {
 			className={classNames(TaskFormStyle.form, className)}
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<Select<TaskFormValues>
-				options={groupsOptions}
-				styles={styles}
-				control={control}
-				name="group"
-				label="Group"
-			/>
+			<Select<TaskFormValues> control={control} name="groupId" label="Group" />
 			<TextField
 				className={TaskFormStyle.textarea}
 				name="content"
