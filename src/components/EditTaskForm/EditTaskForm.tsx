@@ -89,7 +89,6 @@ export const EditTaskForm: FC<ClassNameProps> = ({ className }) => {
 		[goBack, taskId]
 	);
 	const { isDirty, errors } = formState;
-	console.log(errors);
 
 	return (
 		<form
