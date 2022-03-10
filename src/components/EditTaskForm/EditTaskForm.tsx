@@ -31,12 +31,12 @@ export interface EditTaskFormValues {
 
 const prepareTask = (
 	task: TaskStructure | null,
-	group: TaskGroup | null
+	groupId: TaskGroup | null
 ): EditTaskFormValues => {
-	return task && group
+	return task && groupId
 		? {
 				content: task.content,
-				groupId: group.id,
+				groupId: groupId.id,
 				status: task.status,
 		  }
 		: {
@@ -68,11 +68,11 @@ const statuses = [
 export const EditTaskForm: FC<ClassNameProps> = ({ className }) => {
 	const taskId = useGetParam(GET_PARAMS.taskId);
 	const task = useTask(taskId);
-	const group = useGroup(task?.groupId || null);
+	const groupId = useGroup(task?.groupId || null);
 	/* const { groupsOptions, styles } = useGroupSelector(); */
 	const goBack = useGoBack();
 	const { control, handleSubmit, formState } = useForm<EditTaskFormValues>({
-		defaultValues: prepareTask(task, group),
+		defaultValues: prepareTask(task, groupId),
 		resolver: joiResolver(validatingScheme),
 	});
 
@@ -83,11 +83,11 @@ export const EditTaskForm: FC<ClassNameProps> = ({ className }) => {
 				id: +(taskId as unknown as number),
 				status: statusName,
 				groupId,
-			}); */
+			});
 			goBack();
 		},
 		[goBack, taskId]
-	);
+	); */
 	const { isDirty, errors } = formState;
 
 	return (

@@ -60,7 +60,7 @@ export const useGroupsSelectStyles = (groups: TaskGroup[]) => {
 
 export const useGroupSelector = () => {
 	const groups = useTaskGroups();
-	const groupsOptions = useMemo<SelectValue[]>(() => {
+	const groupsOptions = useMemo<SelectValue<number>[]>(() => {
 		return groups.map((group) => ({ value: group.id, label: group.name }));
 	}, [groups]);
 

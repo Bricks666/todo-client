@@ -16,13 +16,20 @@ import { AlertTitle } from "@/ui/AlertTitle";
 import { useLoginError } from "./hooks";
 
 import LoginFormStyle from "./LoginForm.module.css";
-import { FocusTrap } from "@/ui/FocusTrap";
+import { Select } from "../Select";
 
 const initialValue: LoginRequest = {
 	login: "",
 	password: "",
 	remember: false,
 };
+
+const options = [
+	{
+		label: "option",
+		value: "option",
+	},
+];
 
 export const LoginForm: FC<ClassNameProps> = ({ className }) => {
 	const { control, handleSubmit, formState } = useForm<LoginRequest>({
@@ -68,6 +75,7 @@ export const LoginForm: FC<ClassNameProps> = ({ className }) => {
 				type="password"
 				disabled={isSubmitting}
 			/>
+			<Select control={control} name="login" options={options} />
 			<Checkbox name="remember" control={control} label="Remember me" />
 			<Button
 				className={LoginFormStyle.button}

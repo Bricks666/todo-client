@@ -1,9 +1,8 @@
 import { ClassNameProps } from "@/interfaces/common";
 import React, {
-	AriaAttributes,
-	AriaRole,
 	CSSProperties,
 	FC,
+	HTMLAttributes,
 	MouseEventHandler,
 } from "react";
 import { Path } from "react-router-dom";
@@ -20,9 +19,11 @@ export type MenuOption = {
 	readonly icon?: JSX.Element;
 };
 
-interface MenuItemProps extends ClassNameProps, MenuOption, AriaAttributes {
+interface MenuItemProps
+	extends ClassNameProps,
+		MenuOption,
+		Omit<HTMLAttributes<HTMLLIElement>, "className" | "onClick"> {
 	readonly style?: CSSProperties;
-	readonly role?: AriaRole;
 }
 
 export const MenuItem: FC<MenuItemProps> = ({

@@ -6,7 +6,6 @@ import React, {
 	FC,
 	FocusEventHandler,
 	memo,
-	useMemo,
 	useState,
 } from "react";
 import classNames from "classnames";
@@ -14,6 +13,8 @@ import { ClassNameProps } from "@/interfaces/common";
 import { Menu } from "../Menu";
 import { useToggle } from "@/hooks";
 import { MenuItem } from "../MenuItem";
+import { useKeyListener } from "../hooks";
+import { useFocusActive } from "./useFocusActive";
 
 import SelectStyle from "./Select.module.css";
 
@@ -34,24 +35,17 @@ interface SelectProps extends ClassNameProps {
 }
 
 export const Select: FC<SelectProps> = memo(function Select(props) {
-	const { name, value, options, className, onBlur, onChange, onFocus } = props;
-	const [reference, setReference] = useState<HTMLDivElement | null>(null);
+	const { value, options, className, onChange, onBlur, onFocus } = props;
+	const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
+	const [listRef, setListRef] = useState<HTMLDivElement | null>(null);
 	const [isOpen, toggle] = useToggle();
-
-	const menuStyle = useMemo(() => {
-		let width = 0;
-
-		if (reference) {
-			width = parseFloat(getComputedStyle(reference).width);
-		}
-
-		return { width };
-	}, [reference]);
-
+	const { currentFocus } = useFocusActive(listRef, value, isOpen);
+	useKeyListener(" ", toggle, !isOpen, rootRef);
+	const rootClasses = classNames(SelectStyle.select, className);
 	return (
 		<div
-			className={classNames(SelectStyle.select, className)}
-			ref={setReference}
+			className={rootClasses}
+			ref={setRootRef}
 			onClick={toggle}
 			tabIndex={0}
 			role="button"
@@ -60,14 +54,13 @@ export const Select: FC<SelectProps> = memo(function Select(props) {
 			aria-expanded={isOpen}
 			aria-haspopup="listbox"
 		>
-			{value}
-			<input className="visibility-hidden" aria-hidden="true" name={name} />
+			{value || "Select"}
 			<Menu
-				reference={reference}
+				reference={rootRef}
 				isOpen={isOpen}
 				onClose={toggle}
 				role="listbox"
-				style={menuStyle}
+				ref={setListRef}
 			>
 				{options.map(({ label, value, classes, styles }) => (
 					<MenuItem
@@ -77,6 +70,7 @@ export const Select: FC<SelectProps> = memo(function Select(props) {
 							onChange &&
 							onChange({ target: { value } } as ChangeEvent<HTMLSelectElement>)
 						}
+						data-value={value}
 						style={styles}
 						role="option"
 						key={label}

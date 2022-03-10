@@ -17,7 +17,7 @@
 	outline: 2px solid var(--border, var(--shadow));
 }
 
-.select:focus-visible {
+.select:focus {
 	outline: 2px solid var(--outline, var(--primary));
 }
 

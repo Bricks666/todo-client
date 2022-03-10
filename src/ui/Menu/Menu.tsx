@@ -1,5 +1,5 @@
 import { ClassNameProps, ExtractProps } from "@/interfaces/common";
-import React, { AriaRole, CSSProperties, FC } from "react";
+import React, { AriaRole, CSSProperties, FC, forwardRef } from "react";
 import { List } from "../List";
 import { Popover } from "../Popover";
 
@@ -10,15 +10,12 @@ interface MenuProps
 	readonly style?: CSSProperties;
 }
 
-export const Menu: FC<MenuProps> = ({
-	children,
-	className,
-	role = "menu",
-	...props
-}) => {
-	return (
-		<Popover {...props} role={role}>
-			<List className={className}>{children}</List>
-		</Popover>
-	);
-};
+export const Menu: FC<MenuProps> = forwardRef(
+	({ children, className, role = "menu", ...props }, ref) => {
+		return (
+			<Popover {...props} role={role} ref={ref}>
+				<List className={className}>{children}</List>
+			</Popover>
+		);
+	}
+);

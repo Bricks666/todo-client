@@ -3,11 +3,13 @@ import { useEffect } from "react";
 export const useKeyListener = (
 	key: string,
 	callback: VoidFunction,
-	condition: boolean
+	condition?: boolean,
+	element?: HTMLElement | null | Document
 ) => {
+	element = element ?? document;
 	useEffect(() => {
 		if (condition) {
-			document.onkeydown = (evt) => {
+			element!.onkeydown = (evt) => {
 				if (evt.key === key) {
 					callback();
 				}
@@ -15,7 +17,7 @@ export const useKeyListener = (
 		}
 
 		return () => {
-			document.onkeydown = null;
+			element!.onkeydown = null;
 		};
-	}, [key, callback, condition]);
+	}, [key, callback, condition, element]);
 };
